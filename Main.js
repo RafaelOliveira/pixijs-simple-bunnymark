@@ -1,4 +1,5 @@
 var renderer = PIXI.autoDetectRenderer(800, 600, {backgroundColor : 0x1099bb});
+renderer.view.style['transform'] = 'translatez(0)';
 renderer.view.addEventListener('click', function() { addBunnies(1000); });
 document.body.insertBefore(renderer.view, document.body.firstChild);
 
