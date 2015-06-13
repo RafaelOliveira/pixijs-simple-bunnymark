@@ -1,4 +1,5 @@
-var renderer = PIXI.autoDetectRenderer(800, 600);
+var renderer = PIXI.autoDetectRenderer(800, 600, {backgroundColor : 0x1099bb});
+renderer.view.addEventListener('click', function() { addBunnies(1000); });
 document.body.insertBefore(renderer.view, document.body.firstChild);
 
 var bunnies = [];
@@ -12,19 +13,15 @@ var bunniesCount = 0;
 var totalText = document.getElementById('total');
 
 // create the root of the scene graph
-var stage = new PIXI.Container();
+
+// simpler
+// var stage = new PIXI.Container();
+
+// faster
+// http://pixijs.github.io/docs/PIXI.ParticleContainer.html
+var stage = new PIXI.ParticleContainer(200000);
 
 var texture = PIXI.Texture.fromImage('wabbit_alpha.png');
-
-// interacting with the screen
-// I don't know if there is a better way
-// https://github.com/GoodBoyDigital/pixi.js/issues/1825
-var bgInteraction = new PIXI.Sprite.fromImage('bg.png');
-bgInteraction.interactive = true;
-bgInteraction.width = renderer.width;
-bgInteraction.height = renderer.height;
-bgInteraction.on('mousedown', mouseDown).on('touchstart', mouseDown);
-stage.addChild(bgInteraction);
 
 // fps
 var stats = new Stats();
@@ -77,11 +74,6 @@ function update()
 			bunnies[i].spt.position.y = minY;
 		}	
 	}
-}
-
-function mouseDown()
-{
-	addBunnies(1000);
 }
 
 function addBunnies(count) 
